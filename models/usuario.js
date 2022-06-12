@@ -1,7 +1,7 @@
 import { DataTypes } from 'sequelize';
 import { sequelize } from '../database/database.js';
 
-export const usuarios = sequelize.define('usuarios', {
+export const Usuario = sequelize.define('usuarios', {
     nombre_usuario: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -13,4 +13,10 @@ export const usuarios = sequelize.define('usuarios', {
     email: {
         type: DataTypes.STRING,
         allowNull: false,
-    }});
+    }
+},
+    {
+    timestamps: false,
+    updatedAt: false,
+    createdAt: false
+    });
