@@ -10,13 +10,16 @@ import './models/pelicula.js'
 import './models/personaje.js'
 import './database/asociations.js';
 import PersonajeRouter from './routes/personaje.routes.js';
+import UsuarioRouter from './routes/registroylogin.routes.js';
 import './models/usuario.js';
 
 
 const app = express();
 
 app.use(express.json()) //middleware para convertir peticiones a json y lo guarda en un request.body
+app.use(express.urlencoded({ extended: false }));
 
+app.use(UsuarioRouter);
 app.use(PersonajeRouter);
 
 
