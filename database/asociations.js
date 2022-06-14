@@ -2,6 +2,8 @@ import {Genero} from '../models/genero.js';
 import {Pelicula} from '../models/pelicula.js';
 import {Personaje} from '../models/personaje.js';
 import {Personaje_Pelicula} from '../models/personaje_pelicula.js';
+import {Usuario} from '../models/usuario.js';
+import {Rol} from '../models/roles.js';
 
 // muchos a muchos
 // El personaje pertenezca a varias peliculas
@@ -38,3 +40,11 @@ Genero.belongsTo(Genero,
     targetid: "id"
     }
 ); // con esto decimos que varias generos pertenecen a una pelicula
+
+
+
+// 1a1
+// Usuario tiene un rol
+// añadir una clave foranea userId a la tabla roles
+Usuario.hasOne(Rol,{as:'Roles',foreignKey:'userId'});
+Rol.belongsTo(Usuario,{as:'Usuario',foreignKey:'userId'});
