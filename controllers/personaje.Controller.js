@@ -13,8 +13,8 @@ const store = multer.diskStorage({
     },
 });
 
-const upload =  multer
-    ({ storage:store._handleFile,
+export const upload =  multer
+    ({ storage:store,
         limits: { fileSize: '10000000' },
         fileFilter: (req, file, cb) => {
             const filetypes = /jpeg|jpg|png|gif/;
@@ -43,15 +43,28 @@ export const getPersonajes = async (req, res) => { //asincrono porque esta hacie
 // CREACION DE UN PERSONAJE
 export const createPersonaje = async (req, res) => {
     const {nombre, edad, peso, historia} = req.body;
-    const newPersonaje= await Personaje.create({  //asincrono porque esta guardando una consulta a la base de datos
-    nombre,
-    edad,
-    peso,
-    historia
-    });
-    
-    res.send('creando un personaje');
-    res.send(newPersonaje);
+    const images = req.file.path;
+    try { 
+        const newPersonaje= await Personaje.create({  //asincrono porque esta guardando una consulta a la base de datos
+        images,
+        nombre,
+        edad,
+        peso,
+        historia}
+        );
+        if(newPersonaje){
+            res.json({
+                message: 'Personaje creado correctamente',
+                personaje: newPersonaje
+            });
+    }} catch (error) {
+        res.json({
+            message: 'Error al crear el personaje',
+            error
+        });
+    }
+
+       
     
 };
 
@@ -94,4 +107,22 @@ export const deletePersonaje = async (req, res) => {
             message: 'Error al eliminar el personaje',
         })
     }    
-}    
+}
+
+//BUSCAR UN PERSONAJE POR SU NOMBRE
+export const BuscarPorNombre = async (req, res) => {
+    const {nombre} = req.params;
+
+    const buscar_Personaje = await Personaje.findOne({
+        where: {
+            nombre
+        }
+    });
+    if(buscar_Personaje==null) {
+        res.status(404).json({
+            message: 'Personaje no encontrado'
+        })
+    } else {
+        res.json(buscar_Personaje);
+    }
+}

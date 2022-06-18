@@ -1,7 +1,7 @@
 //importaciones de librerias javascript
 import express from 'express';
 import bodyParser from 'body-parser';
-
+import morgan from 'morgan';
 
 //Importaciones de archivos locales creados
 import {sequelize} from './database/database.js';
@@ -15,7 +15,7 @@ import './models/usuario.js';
 
 
 const app = express();
-
+app.use(morgan("dev"))//para ver las peticiones que llegan al servidor
 app.use(express.json()) //middleware para convertir peticiones a json y lo guarda en un request.body
 app.use(express.urlencoded({ extended: false }));
 
